@@ -1,0 +1,62 @@
+﻿@model List<Tuple<WORKFLOW.User, WORKFLOW.LeaveRequest>>
+
+
+@{
+    ViewBag.Title = "AdminPage";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>AdminPage</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tuple in Model)
+                    {
+                        var user = tuple.Item1;
+                        var leaveRequest = tuple.Item2;
+                        <tr>
+                            <td>@(user?.user_id)</td>
+                            <td>@(user?.name)</td>
+                            <td>@(leaveRequest?.start_date?.ToString("MM/dd/yyyy"))</td>
+                            <td>@(leaveRequest?.end_date?.ToString("MM/dd/yyyy"))</td>
+                            <td>@(leaveRequest?.leave_status)</td>
+                            <td>@(leaveRequest?.Description)</td>
+                            <td>
+                                <button class="btn btn-success" onclick="approveRequest(@(user?.user_id))">Approve</button>
+                                <button class="btn btn-danger" onclick="rejectRequest(@(user?.user_id))">Reject</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model.Count == 0)
+            {
+                <p>No data available</p>
+            }
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
